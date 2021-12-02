@@ -1,0 +1,16 @@
+<fieldset>
+  <!-- Edit Comment -->
+  <legend>{{ title }}</legend>
+  <div class="d-flex flex-column">
+    <textarea 
+      class="form-control" 
+      type="text" 
+      list='comment_content'
+      name="comment_content" 
+      required
+      autofocus
+    >{{ comment.comment_content }}</textarea> 
+  </div>
+</fieldset>
+
+<a style="width: 25%" href="/blabs/{{ blab._id }}">Cancel</a>
