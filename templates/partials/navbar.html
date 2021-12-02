@@ -1,0 +1,39 @@
+<!-- templates/partials/navbar.html -->
+
+<nav class="navbar navbar-expand-lg navbar-light navbar-default bg-info container-fluid">
+  <a class="navbar-brand text-black ml-3" href="/">Blabber</a>
+  <button class="navbar-toggler bg-light " type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+    <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+      <!-- <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Link</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link disabled" href="#">Disabled</a>
+      </li> -->
+      <!-- {% if True %}
+      <a href="/login" class="text-info">Log In</a>
+      {% endif %} -->
+    </ul>
+
+    <div class="pull-right d-flex align-items-center">
+      <a href="/charities" class="nav-link text-info">Charities</a>
+      <a href="/blabs/new" class="nav-link btn btn-danger align-self-center mr-4">
+        New Blab
+      </a>
+      <a href="/profile" class="d-flex mr-4">
+        <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" height='40' width='40' style="border-radius: 50px;">
+        <div class="d-flex flex-column ml-2">
+          <span class='text-dark'>Guest User</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</nav>
+

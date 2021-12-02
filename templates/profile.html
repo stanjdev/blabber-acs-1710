@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <div class="container mt-3">
+    <div class='d-flex'>
+      <h2 class="mb-4">User Profile - {{ user.name or 'GUEST USER' }}</h2>
+      <img class='ml-3' src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" height='40' width='40' style="border-radius: 50px;">
+    </div>
+
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 mt-5">
+      <div class="col-12 col-lg-6">
+
+        <h4>Blabs by {{ user.name }}:</h4>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
+          {% include 'partials/blabs_show_for_loop.html' %}
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-6">
+        <h4>Comments by {{ user.name }}:</h4>
+        <!-- <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 d-flex flex-wrap">
+          {% include 'partials/charities_show_for_loop.html' %}
+        </div> -->
+      </div>
+    </div>
+  </div>
+{% endblock %}

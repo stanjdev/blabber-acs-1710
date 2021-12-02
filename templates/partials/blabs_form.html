@@ -1,0 +1,18 @@
+<!-- templates/partials/blabs_form.html -->
+
+<fieldset>
+  <!-- New Blab or Edit Blab -->
+  <legend>{{ title }}</legend>
+  <div class="d-flex flex-column">
+    <textarea 
+      class="form-control" 
+      type="text" 
+      list='text_content'
+      name="text_content" 
+      required
+      autofocus
+    >{{ blab.text_content }}</textarea> 
+  </div>
+</fieldset>
+
+<a style="width: 25%" href="/">Cancel</a>
