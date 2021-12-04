@@ -8,7 +8,13 @@
           <h6><strong>{{ blab.text_content }}</strong></h6>
           <small>by Guest User</small>
         </div>
-        <small>{{ blab.date.strftime("%m/%d/%Y %H:%M") }}</small>
+        <small class='d-flex text-right'>
+          {{ blab.date.strftime("%m/%d/%Y %H:%M") }}
+          <br>
+          {% if blab.updated_date %}  
+            Updated at: {{blab.updated_date.strftime("%m/%d/%Y %H:%M")}}
+          {% endif %} 
+        </small>
       </div>
 
     </div>

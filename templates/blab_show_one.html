@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-  <div class="container">
+  <div class="container mt-5 pt-4 pb-4">
 
     <a href="/profile" class="d-flex mr-4">
       <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" height='40' width='40' style="border-radius: 50px;">
@@ -10,18 +10,29 @@
       </div>
     </a>
     
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 mt-5">
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 mt-3">
       <div class="col-12 col-lg-6">
         <h3>{{ blab.text_content }}</h3>
-        <small>{{ blab.date.strftime("%m/%d/%Y %H:%M") }}</small>
+        <!-- <small>{{ blab.date.strftime("%m/%d/%Y %H:%M") }}</small> -->
         <!-- <small>Blab ID: {{ blab._id }}</small> -->
-        <a href='/blabs/{{ blab._id }}/edit' class="btn btn-warning">EDIT</a>
-        <a href='/blabs/{{ blab._id }}/delete' class="btn btn-danger">DELETE</a>
+        <div class='d-flex flex-column align-items-end'>
+          <small class='d-flex text-right'>
+            Posted at: {{ blab.date.strftime("%m/%d/%Y %H:%M") }}
+            <br>
+            {% if blab.updated_date %}  
+              Updated at: {{blab.updated_date.strftime("%m/%d/%Y %H:%M")}}
+            {% endif %} 
+          </small>
+          <div class='mt-2'>
+            <a href='/blabs/{{ blab._id }}/edit' class="btn btn-warning">EDIT</a>
+            <a href='/blabs/{{ blab._id }}/delete' class="btn btn-danger">DELETE</a>
+          </div>
+        </div>
       </div>
     </div>
 
     <div>
-      <h4>Add a Comment:</h4>
+      <h5>Add a Comment:</h5>
       <form action="/blabs/{{ blab._id }}/comments" method="POST" class="col-lg-6 d-flex flex-column justify-content-around" style="height: 100%">
         <div class="d-flex flex-column ">
           <textarea 
@@ -34,7 +45,7 @@
           ></textarea> 
         </div>
         <div class="form-group align-self-end mt-3">
-          <button type="submit" class="btn btn-info ">Submit</button>
+          <button type="submit" class="btn btn-info">Submit</button>
         </div>
       </form>
 

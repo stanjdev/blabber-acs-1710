@@ -11,3 +11,7 @@ blabs = db.blabs
 
 # Comments resource in our MongoDB
 comments = db.comments
+
+# Users resource in our MongoDB
+users = db.users
+
