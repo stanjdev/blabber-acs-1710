@@ -6,7 +6,7 @@
       <div class="d-flex justify-content-between p-3">
         <div>
           <h6><strong>{{ blab.text_content }}</strong></h6>
-          <small>by Guest User</small>
+          <small>by {{ blab.user_email }}</small>
         </div>
         <small class='d-flex text-right'>
           {{ blab.date.strftime("%m/%d/%Y %H:%M") }}

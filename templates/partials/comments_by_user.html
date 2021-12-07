@@ -1,5 +1,5 @@
 {% for comment in comments %}
-<div class="col-lg-6 square">
+<div class="col-lg-12">
   <div class="card shadow-sm rounded bg-light">
     <div class="d-flex justify-content-between p-3">
       <div>
@@ -16,10 +16,6 @@
             Updated at: {{comment.updated_date.strftime("%m/%d/%Y %H:%M")}}
           {% endif %} 
         </small>
-        <div class='mt-2'>
-          <a href='/blabs/{{ blab._id }}/comments/{{ comment._id }}/edit' class="btn btn-warning"><small>Edit</small></a>
-          <a href='/blabs/{{ blab._id }}/comments/{{ comment._id }}/delete' class="btn btn-danger"><small>Delete</small></a>
-        </div>
       </div>
     </div>
   </div>

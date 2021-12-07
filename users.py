@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from bson.objectid import ObjectId
 import datetime
 
@@ -10,16 +10,27 @@ user_routes = Blueprint('user_routes', __name__)
 
 """ USER PROFILE ROUTE """
 # GET Profile page
-@user_routes.route('/profile')
-def user_profile():
-
-  user = {
-    'name': 'Guest User',
-    'blabs': blabs.find()
-    # Must be blabs by this specific user._id!
-    # Comments too if I do that
-  }
-  return render_template('profile.html', user=user, blabs=blabs.find(), )
+@user_routes.route('/profile/<user_id>')
+def user_profile(user_id):
+  if 'user_id' in session:
+    user = {
+      'name': session['email'],
+      'email': session['email'],
+      'blabs': blabs.find({'user_id': session['user_id']}),
+      'user_id': session['user_id'],
+      'comments': comments.find({'user_id': session['user_id']}),
+    }
+  else:
+    user = {
+      'name': 'Guest User',
+      'email': 'guest',
+      'blabs': blabs.find({'user_id': 'guest'}),
+      'user_id': 'guest',
+      'comments': comments.find({'user_id': 'guest'}),
+      # Must be blabs by this specific user._id!
+      # Comments too if I do that
+    }
+  return render_template('profile.html', user=user, blabs=user['blabs'], comments=user['comments'], all_blabs=blabs.find())
 
 
 
@@ -54,6 +65,7 @@ def signup():
 # GET login page
 @user_routes.route('/login')
 def login_form():
+  print(session)
   return render_template('login.html')
 
 # POST to log user in
@@ -66,12 +78,12 @@ def login():
   
   found_user = users.find_one({'email': user_input['email'], 'password':user_input['password']})
   if (found_user):
-    user_id = found_user['_id']
-    print('found user\'s id:', user_id)
+    session['user_id'] = str(found_user['_id'])
+    session['email'] = user_input['email']
     flash('Successfully logged in!', 'success')
-    return redirect(url_for('blab_routes.all_blabs_index', user_id=user_id))
+    return render_template('all_blabs_index.html', blabs=blabs.find())
   else:
-    flash('User or password incorrect.', 'danger')
+    flash('Email or password incorrect.', 'danger')
     return redirect(url_for('user_routes.login'))
 
 
@@ -79,8 +91,10 @@ def login():
 """ LOGOUT """
 @user_routes.route('/logout')
 def logout():
+  session.pop('user_id', None)
+  session.pop('email', None)
   print('logout pressed!')
-  flash('Successfully logged out!', 'warning')
+  flash('You have been logged out!', 'warning')
   return redirect(url_for('blab_routes.all_blabs_index'))
 
 

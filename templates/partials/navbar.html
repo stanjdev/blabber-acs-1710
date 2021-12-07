@@ -8,10 +8,10 @@
 
   <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
     <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
-      {% if not user_id %}
-        <a href="/login" class="text-warning">Log In {{ user_id }}</a>
+      {% if session['user_id'] %}
+      <a href="/logout" class="text-warning">Log Out</a>
       {% else %}
-        <a href="/logout" class="text-warning">Log Out {{ user_id }} </a>
+      <a href="/login" class="text-warning">Log In</a>
       {% endif %}
     </ul>
 
@@ -19,12 +19,18 @@
       <a href="/blabs/new" class="nav-link btn btn-danger align-self-center mr-4">
         New Blab
       </a>
-      <a href="/profile" class="d-flex mr-4">
+
+      {% if session['user_id'] %}
+      <a href="/profile/{{ session['user_id'] }}" class="d-flex mr-4">
+      {% else %}
+      <a href="/profile/guest" class="d-flex mr-4">
+      {% endif %}
         <img src="https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png" height='40' width='40' style="border-radius: 50px;">
         <div class="d-flex flex-column ml-2">
-          <span class='text-dark'>Guest User</span>
+          <span class='text-dark'>{{ session['email'] if session['email'] else 'Guest User' }}</span>
         </div>
       </a>
+
     </div>
   </div>
 </nav>
