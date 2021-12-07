@@ -12,24 +12,21 @@ user_routes = Blueprint('user_routes', __name__)
 # GET Profile page
 @user_routes.route('/profile/<user_id>')
 def user_profile(user_id):
-  if 'user_id' in session:
+  if user_id == 'guest':
     user = {
-      'name': session['email'],
-      'email': session['email'],
-      'blabs': blabs.find({'user_id': session['user_id']}),
-      'user_id': session['user_id'],
-      'comments': comments.find({'user_id': session['user_id']}),
-    }
-  else:
-    user = {
-      'name': 'Guest User',
       'email': 'guest',
       'blabs': blabs.find({'user_id': 'guest'}),
       'user_id': 'guest',
       'comments': comments.find({'user_id': 'guest'}),
-      # Must be blabs by this specific user._id!
-      # Comments too if I do that
     }
+  else: 
+    found_user = users.find_one({'_id': ObjectId(user_id)})
+    user = {
+        'email': found_user['email'],
+        'blabs': blabs.find({'user_id': user_id}),
+        'user_id': user_id,
+        'comments': comments.find({'user_id': user_id}),
+      }
   return render_template('profile.html', user=user, blabs=user['blabs'], comments=user['comments'], all_blabs=blabs.find())
 
 
