@@ -1,5 +1,4 @@
-import pymongo
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
 import datetime
 
@@ -40,6 +39,7 @@ def blab_submit():
   # WRITES TO THE blabs DB
   blabs.insert_one(blab)
 
+  flash('Successfully posted a blab!', 'success')
   return redirect(url_for('blab_routes.all_blabs_index'))
 
 # GET - EDIT form
@@ -65,6 +65,7 @@ def blab_update(blab_id):
     {'_id': ObjectId(blab_id)},
     {'$set': updated_blab}
   )
+  flash('Successfully edited blab!', 'info')
   return redirect(url_for('blab_routes.all_blabs_index'))
 
 # DELETE - a blab 
@@ -72,6 +73,7 @@ def blab_update(blab_id):
 @blab_routes.route('/blabs/<blab_id>/delete')
 def donations_delete(blab_id):
   blabs.delete_one({'_id': ObjectId(blab_id)})
+  flash('Successfully deleted a blab.', 'warning')
   return redirect(url_for('blab_routes.all_blabs_index'))
 
 

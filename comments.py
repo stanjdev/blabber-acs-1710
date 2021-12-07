@@ -1,5 +1,4 @@
-import pymongo
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
 import datetime
 
@@ -20,6 +19,7 @@ def comment_new(blab_id):
     'date': now
   }
   comments.insert_one(comment)
+  flash('Successfully posted a comment!', 'success')
   return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
 
 
@@ -46,6 +46,7 @@ def comment_edit(blab_id, comment_id):
     {'_id': ObjectId(comment_id)},
     {'$set': updated_comment}
   )
+  flash('Successfully edited a comment!', 'info')
   return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
 
 
@@ -53,6 +54,7 @@ def comment_edit(blab_id, comment_id):
 @comment_routes.route('/blabs/<blab_id>/comments/<comment_id>/delete')
 def comment_delete(blab_id, comment_id):
   comments.delete_one({'_id': ObjectId(comment_id)})
+  flash('Successfully deleted a comment!', 'warning')
   return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
 
 

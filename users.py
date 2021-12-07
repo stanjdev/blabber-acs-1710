@@ -1,5 +1,4 @@
-import pymongo
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, flash
 from bson.objectid import ObjectId
 import datetime
 
@@ -40,12 +39,14 @@ def signup():
   }
 
   if new_user['password'] != new_user['confirm_password']:
-    print('PASSWORDS DO NOT MATCH!') #FLASH THIS
+    flash('Passwords do not match!', 'danger')
     return redirect(url_for('user_routes.signup'))
+  else:
+    users.insert_one(new_user)
+    print('New user inserted!', new_user)
+    flash('New user successfully created!', 'success')
+    return redirect(url_for('user_routes.login'))
 
-  users.insert_one(new_user)
-  print('New user inserted!', new_user)
-  return redirect(url_for('user_routes.login'))
 
 
 
@@ -67,9 +68,11 @@ def login():
   if (found_user):
     user_id = found_user['_id']
     print('found user\'s id:', user_id)
+    flash('Successfully logged in!', 'success')
     return redirect(url_for('blab_routes.all_blabs_index', user_id=user_id))
-    
-  return redirect(url_for('blab_routes.all_blabs_index'))
+  else:
+    flash('User or password incorrect.', 'danger')
+    return redirect(url_for('user_routes.login'))
 
 
 
@@ -77,6 +80,7 @@ def login():
 @user_routes.route('/logout')
 def logout():
   print('logout pressed!')
+  flash('Successfully logged out!', 'warning')
   return redirect(url_for('blab_routes.all_blabs_index'))
 
 
