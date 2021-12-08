@@ -82,6 +82,22 @@ def blab_update(blab_id):
       )
       flash('Successfully edited blab!', 'info')
       return redirect(url_for('blab_routes.all_blabs_index')) 
+
+  elif 'user_id' not in session and original_blab['user_id'] == 'guest':
+    updated_blab = {
+      'text_content': request.form.get('text_content'),
+      'date': original_blab['date'],
+      'updated_date': now,
+      'user_id': 'guest',
+      'user_email': 'guest',
+    }
+    # Set that former blab from db to this updated one
+    blabs.update_one(
+      {'_id': ObjectId(blab_id)},
+      {'$set': updated_blab}
+    )
+    flash('Successfully edited guest blab!', 'info')
+    return redirect(url_for('blab_routes.all_blabs_index')) 
   flash('You can only edit your own blabs!', 'danger')
   return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
 

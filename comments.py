@@ -63,6 +63,21 @@ def comment_edit(blab_id, comment_id):
       )
       flash('Successfully edited a comment!', 'info')
       return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
+  elif 'user_id' not in session and original_comment['user_id'] == 'guest':
+    updated_comment = {
+      'blab_id': blab_id,
+      'comment_content': request.form.get('comment_content'),
+      'date': original_comment['date'],
+      'updated_date': now,
+      'user_id': 'guest',
+      'user_email': 'guest'
+    }
+    comments.update_one(
+      {'_id': ObjectId(comment_id)},
+      {'$set': updated_comment}
+    )
+    flash('Successfully edited a guest comment!', 'info')
+    return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
   flash('You can only edit your own comments!', 'danger')
   return redirect(url_for('blab_routes.blab_show_one', blab_id=blab_id))
 
