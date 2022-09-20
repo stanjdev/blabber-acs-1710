@@ -1,0 +1,15 @@
+services:
+  mongodb:
+    image: mongo:3.6.1
+    ports: 
+      - "27017:27017"
+  web:
+    build: .
+    command: python -u app.py
+    ports: 
+      - "5001:5000"
+    volumes: 
+      - .:/app
+    depends_on:
+      - mongodb
+
